@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/v-0.0.3-black"/>
     <a href="https://github.com/cruxkit-org"><img src="https://img.shields.io/badge/🔥-@cruxkit-black"/></a>
     <br>
-    <img src="https://img.shields.io/badge/coverage-99%25-brightgreen" alt="Test Coverage" />
+    <img src="https://img.shields.io/badge/coverage-100%25-brightgreen" alt="Test Coverage" />
     <img src="https://img.shields.io/github/issues/cruxkit-org/button?style=flat" alt="Github Repo Issues" />
     <img src="https://img.shields.io/github/stars/cruxkit-org/button?style=social" alt="GitHub Repo stars" />
 </div>
