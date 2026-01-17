@@ -1,0 +1,198 @@
+// test/index.test.ts
+//
+// Made with ❤️ by Maysara.
+
+
+
+// ╔════════════════════════════════════════ PACK ════════════════════════════════════════╗
+
+    import { describe, expect, test } from 'bun:test';
+    import { JSDOM } from 'jsdom';
+    import { render } from '@minejs/jsx';
+    import {
+        Button,
+    } from '../src';
+    import type {
+        ButtonProps,
+    } from '../src';
+
+// ╚══════════════════════════════════════════════════════════════════════════════════════╝
+
+
+
+// ╔════════════════════════════════════════ INIT ════════════════════════════════════════╗
+
+    const dom               = new JSDOM('<!DOCTYPE html><html><body></body></html>');
+    global.document         = dom.window.document;
+    global.window           = dom.window as any;
+    global.HTMLElement      = dom.window.HTMLElement;
+    global.Element          = dom.window.Element;
+    global.Text             = dom.window.Text;
+    global.DocumentFragment = dom.window.DocumentFragment;
+    global.Node             = dom.window.Node;
+
+// ╚══════════════════════════════════════════════════════════════════════════════════════╝
+
+
+
+// ╔════════════════════════════════════════ TEST ════════════════════════════════════════╗
+
+    describe('@cruxkit/button', () => {
+        function renderButton(props: ButtonProps) {
+            const container = document.createElement('div');
+            document.body.appendChild(container);
+
+            const mounted = render(Button(props), container);
+            const root     = container.firstElementChild as HTMLElement | null;
+
+            if (!root) {
+                throw new Error('Button did not render any element');
+            }
+
+            return { container, root, mounted };
+        }
+
+        test('renders with default configuration', () => {
+            const { root, mounted } = renderButton({
+                children: 'Click me'
+            });
+
+            expect(root.tagName).toBe('BUTTON');
+            expect(root.textContent?.trim()).toBe('Click me');
+            expect(root.className).toContain('inline-flex');
+            expect(root.className).toContain('bg-brand');
+
+            mounted.unmount();
+        });
+
+        test('applies fullWidth and state styles', () => {
+            const fullWidth = renderButton({
+                children : 'Wide',
+                fullWidth: true
+            });
+
+            expect(fullWidth.root.className).toContain('w-full');
+
+            fullWidth.mounted.unmount();
+
+            const disabled = renderButton({
+                children: 'Disabled',
+                disabled: true
+            });
+
+            expect(disabled.root.className).toContain('opacity-50');
+            expect(disabled.root.className).toContain('cursor-not-allowed');
+            expect(disabled.root.className).toContain('pointer-events-none');
+
+            disabled.mounted.unmount();
+
+            const loading = renderButton({
+                children: 'Loading',
+                loading : true
+            });
+
+            expect(loading.root.className).toContain('opacity-50');
+            expect(loading.root.className).toContain('cursor-not-allowed');
+            expect(loading.root.className).toContain('pointer-events-none');
+
+            loading.mounted.unmount();
+        });
+
+        test('supports all sizes', () => {
+            const sizes: ButtonProps['size'][] = ['sm', 'md', 'lg'];
+
+            for (const size of sizes) {
+                const instance = renderButton({
+                    size,
+                    children: `Size ${size}`
+                });
+
+                expect(instance.root.textContent).toContain(`Size ${size}`);
+
+                instance.mounted.unmount();
+            }
+        });
+
+        test('supports different variants', () => {
+            const outline = renderButton({
+                variant : 'outline',
+                color   : 'brand',
+                children: 'Outline'
+            });
+
+            expect(outline.root.className).toContain('border-brand');
+
+            outline.mounted.unmount();
+
+            const ghost = renderButton({
+                variant : 'ghost',
+                color   : 'brand',
+                children: 'Ghost'
+            });
+
+            expect(ghost.root.className).toContain('text-brand');
+
+            ghost.mounted.unmount();
+
+            const link = renderButton({
+                variant : 'link',
+                color   : 'brand',
+                children: 'Link'
+            });
+
+            expect(link.root.className).toContain('hover:underline');
+
+            link.mounted.unmount();
+        });
+
+        test('renders icons from name and props', () => {
+            const withName = renderButton({
+                leftIcon : 'plus' as any,
+                rightIcon: 'minus' as any,
+                children : 'With icons'
+            });
+
+            const nameSpans = withName.root.querySelectorAll('span.inline-flex.shrink-0');
+            expect(nameSpans.length).toBeGreaterThanOrEqual(2);
+
+            withName.mounted.unmount();
+
+            const iconProps: any = { name: 'check' };
+
+            const withProps = renderButton({
+                leftIcon : iconProps,
+                rightIcon: { name: 'x', size: 'lg' } as any,
+                children : 'With props icons'
+            });
+
+            const propSpans = withProps.root.querySelectorAll('span.inline-flex.shrink-0');
+            expect(propSpans.length).toBeGreaterThanOrEqual(2);
+
+            withProps.mounted.unmount();
+        });
+
+        test('skips label when children is empty', () => {
+            const { root, mounted } = renderButton({
+                children: ''
+            });
+
+            expect(root.textContent?.trim()).toBe('');
+
+            mounted.unmount();
+        });
+
+        test('supports polymorphic as prop', () => {
+            const { root, mounted } = renderButton({
+                as      : 'a',
+                href    : 'https://example.com',
+                children: 'Link button'
+            });
+
+            expect(root.tagName).toBe('A');
+            expect(root.getAttribute('href')).toBe('https://example.com');
+
+            mounted.unmount();
+        });
+    });
+
+// ╚══════════════════════════════════════════════════════════════════════════════════════╝
