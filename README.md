@@ -8,7 +8,7 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/badge/v-0.0.3-black"/>
+    <img src="https://img.shields.io/badge/v-0.0.4-black"/>
     <a href="https://github.com/cruxkit-org"><img src="https://img.shields.io/badge/🔥-@cruxkit-black"/></a>
     <br>
     <img src="https://img.shields.io/badge/coverage-100%25-brightgreen" alt="Test Coverage" />
@@ -60,9 +60,7 @@
     - ### Basic usage
 
         ```tsx
-        <Button>
-            Click me
-        </Button>
+        <Button text="Click me" />
         ```
 
     - ### With options
@@ -88,6 +86,9 @@
             href="https://example.com"
             variant="link"
             color="brand"
+            onMount={(el) => {
+                console.log('Button mounted', el);
+            }}
         >
             Learn more
         </Button>
@@ -104,76 +105,49 @@
         - #### Functions
 
             ```tsx
-            /**
-            * A polymorphic button component that supports multiple variants, colors, sizes, and states.
-            *
-            * @param props              - The properties for the Button component.
-            * @param props.variant      - Visual style variant: `'solid' | 'outline' | 'ghost' | 'link'`.
-            * @param props.color        - Color theme: `'brand' | 'success' | 'warning' | 'error' | 'neutral'`.
-            * @param props.size         - Size scale: `'sm' | 'md' | 'lg'`.
-            * @param props.fullWidth    - Whether the button spans the full width of its container.
-            * @param props.disabled     - Whether the button is disabled.
-            * @param props.loading      - Whether the button is in a loading state (disables interaction).
-            * @param props.leftIcon     - Optional icon placed to the left of the label (string name or IconProps).
-            * @param props.rightIcon    - Optional icon placed to the right of the label (string name or IconProps).
-            * @param props.as           - Element type to render: `'button' | 'a' | any polymorphic component`.
-            * @param props.children     - Button label content.
-            * @param props.className    - Additional CSS classes appended to the built-in styles.
-            * @param props.type         - HTML button type attribute (only applied when `as="button"`).
-            * @param props.restProps    - Any other props are forwarded to the underlying element.
-            *
-            * @returns A JSX element representing the styled button.
-            */
+            // A polymorphic button component that supports multiple variants, colors, sizes, and states.
             export function Button(props: ButtonProps): JSXElement
             ```
 
         - #### Types
 
             ```tsx
-            export type IconSize        = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | number;
+            export type ButtonVariant  = 'solid' | 'outline' | 'ghost' | 'link';
+            export type ButtonColor    = 'brand' | 'success' | 'warning' | 'error' | 'neutral';
+            export type ButtonSize     = 'sm' | 'md' | 'lg';
 
-            export type IconData        = Record<string, unknown>;
-            export { iconCatalog };
-            export type IconName        = CatalogIconName;
+            export interface ButtonProps {
+                variant?                : ButtonVariant;
+                color?                  : ButtonColor;
+                size?                   : ButtonSize;
+                fullWidth?              : boolean;
+                disabled?               : boolean;
+                loading?                : boolean;
 
-            interface IconConfigBase {
-                size?                   : IconSize
-                color?                  : string
-                spin?                   : boolean
-                pulse?                  : boolean
-                rotate?                 : 0 | 90 | 180 | 270
-                flip?                   : 'horizontal' | 'vertical' | 'both'
-                [key: string]           : unknown
+                leftIcon?               : IconProps | IconName;
+                rightIcon?              : IconProps | IconName;
+
+                as?                     : ContainerAs;
+
+                text?                   : string | number;
+                children?               : JSXElement | string | number;
+
+                className?              : string;
+                id?                     : string;
+                type?                   : 'button' | 'submit' | 'reset';
+                href?                   : string;
+                target?                 : string;
+                rel?                    : string;
+
+                'aria-label'?           : string;
+                role?                   : string;
+
+                onMount?                : (e: HTMLElement) => void;
+                onLoad?                 : (e: HTMLElement) => void;
+                onClick?                : (e: MouseEvent) => void;
+                onMouseEnter?           : (e: MouseEvent) => void;
+                onMouseLeave?           : (e: MouseEvent) => void;
             }
-
-            export interface NamedIconConfig extends IconConfigBase {
-                name                    : IconName
-                svg?                    : never
-                viewBox?                : never
-            }
-
-            export interface CustomIconConfig extends IconConfigBase {
-                name?                   : string
-                svg                     : string
-                viewBox?                : string
-            }
-
-            export type IconConfig      = NamedIconConfig | CustomIconConfig;
-
-            export type IconProps       = IconConfig | IconName;
-            ```
-
-        - #### Constants
-
-            ```tsx
-            export const sizeMap: Record<string, string> = {
-                xs                      : '0.75rem',
-                sm                      : '1rem',
-                md                      : '1.25rem',
-                lg                      : '1.5rem',
-                xl                      : '2rem',
-                xxl                     : '2.5rem'
-            };
             ```
 
         <div align="center"> <img src="./assets/img/line.png" alt="line" style="display: block; margin-top:20px;margin-bottom:20px;width:500px;"/> </div>

@@ -33,6 +33,7 @@
 
         as?                     : ContainerAs;
 
+        text?                   : string | number;
         children?               : JSXElement | string | number;
 
         className?              : string;
@@ -45,6 +46,8 @@
         'aria-label'?           : string;
         role?                   : string;
 
+        onMount?                : (e: HTMLElement) => void;
+        onLoad?                 : (e: HTMLElement) => void;
         onClick?                : (e: MouseEvent) => void;
         onMouseEnter?           : (e: MouseEvent) => void;
         onMouseLeave?           : (e: MouseEvent) => void;

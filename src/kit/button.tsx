@@ -11,7 +11,8 @@
     import { Text }                                                     from '@cruxkit/text';
     import { Icon, type IconProps, type IconName, type IconConfig }     from '@cruxkit/icon';
     import type { ButtonProps, ButtonSize, ButtonColor, ButtonVariant } from '../types';
-
+    import { t } from '@cruxjs/client';
+    
 // ╚══════════════════════════════════════════════════════════════════════════════════════╝
 
 
@@ -254,6 +255,25 @@
 
 // ╔════════════════════════════════════════ CORE ════════════════════════════════════════╗
 
+    const mountedElements            = new WeakSet<HTMLElement>();
+    const loadedElements             = new WeakSet<HTMLElement>();
+    const translatedElements         = new WeakSet<HTMLElement>();
+    const MAX_TRANSLATION_ATTEMPTS   = 5;
+    const TRANSLATION_RETRY_DELAY_MS = 100;
+
+    type ButtonContainerProps = {
+        as?: unknown;
+        display?: string;
+        align?: string;
+        justify?: string;
+        gap?: number;
+        px?: number;
+        py?: number;
+        radius?: string;
+        className?: string;
+        ref?: (element: HTMLElement | null) => void;
+    } & Record<string, unknown>;
+
     function renderIcon(icon: IconProps | IconName | undefined, size: ButtonSize): JSXElement | null {
         if (!icon) return null;
 
@@ -314,9 +334,12 @@
             leftIcon,
             rightIcon,
             as          = 'button',
+            text,
             children,
             className,
             type        = 'button',
+            onMount,
+            onLoad,
             ...restProps
         } = props;
 
@@ -367,10 +390,13 @@
             content.push(left);
         }
 
-        if (children !== undefined && children !== null && children !== '') {
+        const isKeyLikeText = typeof text === 'string' && text.includes('.');
+        const label         = children ?? (isKeyLikeText ? '--' : text);
+
+        if (label !== undefined && label !== null && label !== '') {
             content.push(
-                <Text as="span" size={labelSize}>
-                    {children}
+                <Text as="span" size={labelSize} data-role="btn-label" className='flex items-center'>
+                    {label}
                 </Text>
             );
         }
@@ -386,20 +412,91 @@
                 ? { type }
                 : {};
 
+        const shouldTranslate = isKeyLikeText;
+
+        const handleRef =
+            (onMount || onLoad || shouldTranslate)
+                ? (element: HTMLElement | null) => {
+                    if (!element) return;
+
+                    if (onMount && !mountedElements.has(element)) {
+                        mountedElements.add(element);
+                        onMount(element);
+                    }
+
+                    if (onLoad && !loadedElements.has(element)) {
+                        loadedElements.add(element);
+
+                        const runLoad = () => {
+                            onLoad(element);
+                        };
+
+                        if (typeof requestAnimationFrame === 'function') {
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(runLoad);
+                            });
+                        } else {
+                            setTimeout(runLoad, 0);
+                        }
+                    }
+
+                    if (shouldTranslate && !translatedElements.has(element)) {
+                        const schedule = (fn: () => void) => {
+                            if (typeof queueMicrotask === 'function') {
+                                queueMicrotask(fn);
+                            } else {
+                                setTimeout(fn, 0);
+                            }
+                        };
+
+                        const attemptTranslate = (attempt: number) => {
+                            const labelNode = element.querySelector('[data-role=\"btn-label\"]');
+
+                            if (!labelNode || typeof text !== 'string') return;
+
+                            let translated = t(text as string, undefined, '--');
+
+                            if (translated !== text && translated !== '--' || attempt >= MAX_TRANSLATION_ATTEMPTS) {
+                                (labelNode as HTMLElement).textContent = String(translated);
+                                translatedElements.add(element);
+                                return;
+                            }
+
+                            setTimeout(
+                                () => {
+                                    attemptTranslate(attempt + 1);
+                                },
+                                TRANSLATION_RETRY_DELAY_MS
+                            );
+                        };
+
+                        schedule(() => {
+                            attemptTranslate(0);
+                        });
+                    }
+                }
+                : undefined;
+
+        const containerProps: ButtonContainerProps = {
+            as,
+            display   : 'inline-flex',
+            align     : 'center',
+            justify   : 'center',
+            gap,
+            px        : padding.px,
+            py        : padding.py,
+            radius    : 'md',
+            className : classes,
+            ...elementTypeProps,
+            ...restProps
+        };
+
+        if (handleRef) {
+            containerProps.ref = handleRef;
+        }
+
         return (
-            <Container
-                as={as}
-                display         = "inline-flex"
-                align           = "center"
-                justify         = "center"
-                gap             = {gap}
-                px              = {padding.px}
-                py              = {padding.py}
-                radius          = "md"
-                className       = {classes}
-                {...elementTypeProps}
-                {...restProps}
-            >
+            <Container {...(containerProps as Record<string, unknown>)}>
                 {content}
             </Container>
         );

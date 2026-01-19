@@ -54,13 +54,24 @@
 
         test('renders with default configuration', () => {
             const { root, mounted } = renderButton({
-                children: 'Click me'
+                text: 'Click me'
             });
 
             expect(root.tagName).toBe('BUTTON');
             expect(root.textContent?.trim()).toBe('Click me');
             expect(root.className).toContain('inline-flex');
             expect(root.className).toContain('bg-brand');
+
+            mounted.unmount();
+        });
+
+        test('prefers children over text when both are provided', () => {
+            const { root, mounted } = renderButton({
+                text    : 'From text',
+                children: 'From children'
+            });
+
+            expect(root.textContent?.trim()).toBe('From children');
 
             mounted.unmount();
         });
@@ -190,6 +201,26 @@
 
             expect(root.tagName).toBe('A');
             expect(root.getAttribute('href')).toBe('https://example.com');
+
+            mounted.unmount();
+        });
+
+        test('calls onMount with underlying element', () => {
+            let calls          = 0;
+            let mountedElement = null as HTMLElement | null;
+
+            const { root, mounted } = renderButton({
+                children: 'Mounted',
+                onMount : (el: HTMLElement) => {
+                    calls++;
+                    mountedElement = el;
+                }
+            });
+
+            expect(calls).toBe(1);
+            expect(mountedElement).not.toBeNull();
+            expect(mountedElement).toBeInstanceOf(HTMLElement);
+            expect(mountedElement).toBe(root);
 
             mounted.unmount();
         });

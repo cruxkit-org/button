@@ -15,6 +15,7 @@ interface ButtonProps {
     leftIcon?: IconProps | IconName;
     rightIcon?: IconProps | IconName;
     as?: ContainerAs;
+    text?: string | number;
     children?: JSXElement | string | number;
     className?: string;
     id?: string;
@@ -24,6 +25,8 @@ interface ButtonProps {
     rel?: string;
     'aria-label'?: string;
     role?: string;
+    onMount?: (e: HTMLElement) => void;
+    onLoad?: (e: HTMLElement) => void;
     onClick?: (e: MouseEvent) => void;
     onMouseEnter?: (e: MouseEvent) => void;
     onMouseLeave?: (e: MouseEvent) => void;
