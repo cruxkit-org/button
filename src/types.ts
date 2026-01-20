@@ -8,7 +8,6 @@
 
     import type { JSXElement }          from '@minejs/jsx';
     import type { ContainerAs }         from '@cruxkit/container';
-    import type { IconProps, IconName } from '@cruxkit/icon';
 
 // ╚══════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -28,8 +27,9 @@
         disabled?               : boolean;
         loading?                : boolean;
 
-        leftIcon?               : IconProps | IconName;
-        rightIcon?              : IconProps | IconName;
+        leftIcon?               : JSXElement;
+        rightIcon?              : JSXElement;
+        icon?                   : JSXElement;
 
         as?                     : ContainerAs;
 

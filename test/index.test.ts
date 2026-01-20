@@ -12,6 +12,7 @@
     import {
         Button,
     } from '../src';
+    import { Icon } from '@cruxkit/icon';
     import type {
         ButtonProps,
     } from '../src';
@@ -156,30 +157,18 @@
             link.mounted.unmount();
         });
 
-        test('renders icons from name and props', () => {
-            const withName = renderButton({
-                leftIcon : 'plus' as any,
-                rightIcon: 'minus' as any,
+        test('renders icons from passed elements', () => {
+            const withIcons = renderButton({
+                leftIcon : Icon('a') as any,
+                rightIcon: Icon('ain') as any,
                 children : 'With icons'
             });
 
-            const nameSpans = withName.root.querySelectorAll('span.inline-flex.shrink-0');
-            expect(nameSpans.length).toBeGreaterThanOrEqual(2);
+            const iconSpans = withIcons.root.querySelectorAll('span.inline-flex.shrink-0');
+            expect(iconSpans.length).toBeGreaterThanOrEqual(2);
+            expect(withIcons.root.innerHTML).toContain('svg'); // Icon renders an svg
 
-            withName.mounted.unmount();
-
-            const iconProps: any = { name: 'check' };
-
-            const withProps = renderButton({
-                leftIcon : iconProps,
-                rightIcon: { name: 'x', size: 'lg' } as any,
-                children : 'With props icons'
-            });
-
-            const propSpans = withProps.root.querySelectorAll('span.inline-flex.shrink-0');
-            expect(propSpans.length).toBeGreaterThanOrEqual(2);
-
-            withProps.mounted.unmount();
+            withIcons.mounted.unmount();
         });
 
         test('skips label when children is empty', () => {
@@ -221,6 +210,24 @@
             expect(mountedElement).not.toBeNull();
             expect(mountedElement).toBeInstanceOf(HTMLElement);
             expect(mountedElement).toBe(root);
+
+            mounted.unmount();
+        });
+
+        test('renders as icon button when icon prop is provided', () => {
+            const { root, mounted } = renderButton({
+                icon: Icon('a') as any,
+                size: 'md'
+            });
+
+            // Check for equal padding (square shape)
+            // md size has py: 2, so px should also be 2
+            expect(root.className).toContain('px-2');
+            expect(root.className).toContain('py-2');
+
+            // Check if icon is rendered
+            const spans = root.querySelectorAll('span.inline-flex.shrink-0');
+            expect(spans.length).toBeGreaterThanOrEqual(1);
 
             mounted.unmount();
         });

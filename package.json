@@ -1,6 +1,6 @@
 {
 	"name"                             : "@cruxkit/button",
-	"version"                          : "0.0.5",
+	"version"                          : "0.0.6",
 	"description"                      : "Polymorphic, theme-aware button component for the Cruxkit ecosystem, built on @minejs/jsx.",
 	"keywords"                         : ["crux", "kit", "button"],
 	"license"                          : "MIT",
@@ -42,23 +42,23 @@
 	"dependencies": {
 		"@cruxjs/client"               : "^0.2.2",
 		"@cruxkit/container"           : "^0.0.2",
-		"@cruxkit/icon"                : "^0.0.4",
 		"@cruxkit/text"                : "^0.0.2",
-		"@minejs/jsx"                  : "^0.1.3"
+		"@minejs/jsx"                  : "^0.1.4"
 	},
 	"devDependencies": {
+		"@cruxkit/icon"                : "^0.0.5",
 		"@eslint/js"                   : "^9.39.2",
-		"@stylistic/eslint-plugin"     : "^5.6.1",
-		"@types/bun"                   : "^1.3.5",
+		"@stylistic/eslint-plugin"     : "^5.7.0",
+		"@types/bun"                   : "^1.3.6",
 		"@types/jsdom"                 : "^27.0.0",
-		"@types/node"                  : "^20.19.27",
-		"@types/react"                 : "^19.2.8",
+		"@types/node"                  : "^20.19.30",
+		"@types/react"                 : "^19.2.9",
 		"bun-plugin-dts"               : "^0.3.0",
-		"bun-types"                    : "^1.3.5",
+		"bun-types"                    : "^1.3.6",
 		"jsdom"                        : "^27.4.0",
 		"ts-node"                      : "^10.9.2",
 		"tsup"                         : "^8.5.1",
 		"typescript"                   : "^5.9.3",
-		"typescript-eslint"            : "^8.51.0"
+		"typescript-eslint"            : "^8.53.1"
 	}
 }

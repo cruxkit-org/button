@@ -1,6 +1,5 @@
 import { JSXElement } from '@minejs/jsx';
 import { ContainerAs } from '@cruxkit/container';
-import { IconProps, IconName } from '@cruxkit/icon';
 
 type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
 type ButtonColor = 'brand' | 'success' | 'warning' | 'error' | 'neutral';
@@ -12,8 +11,9 @@ interface ButtonProps {
     fullWidth?: boolean;
     disabled?: boolean;
     loading?: boolean;
-    leftIcon?: IconProps | IconName;
-    rightIcon?: IconProps | IconName;
+    leftIcon?: JSXElement;
+    rightIcon?: JSXElement;
+    icon?: JSXElement;
     as?: ContainerAs;
     text?: string | number;
     children?: JSXElement | string | number;
