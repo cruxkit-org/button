@@ -9,6 +9,7 @@
     import type { JSXElement }                                          from '@minejs/jsx';
     import { Container }                                                from '@cruxkit/container';
     import { Text }                                                     from '@cruxkit/text';
+    import { Icon, type IconProps, type IconName, type IconConfig }     from '@cruxkit/icon';
     import type { ButtonProps, ButtonSize, ButtonColor, ButtonVariant } from '../types';
     import { t } from '@cruxjs/client';
     
@@ -273,11 +274,24 @@
         ref?: (element: HTMLElement | null) => void;
     } & Record<string, unknown>;
 
-    function renderIcon(icon: JSXElement | undefined, size: ButtonSize): JSXElement | null {
+    function renderIcon(icon: IconProps | IconName | undefined, size: ButtonSize): JSXElement | null {
         if (!icon) return null;
+
+        const iconSize = iconSizeMap[size];
+
+        if (typeof icon === 'string') {
+            return (
+                <span className="inline-flex shrink-0">
+                    <Icon name={icon as IconName} size={iconSize} />
+                </span>
+            );
+        }
+
+        const resolvedSize = ((icon as IconProps) as IconConfig).size ?? iconSize;
+
         return (
             <span className="inline-flex shrink-0">
-                {icon}
+                <Icon {...icon} size={resolvedSize} />
             </span>
         );
     }
@@ -319,7 +333,6 @@
             loading     = false,
             leftIcon,
             rightIcon,
-            icon,
             as          = 'button',
             text,
             children,
@@ -370,16 +383,11 @@
 
         const content: JSXElement[] = [];
 
-        const left       = renderIcon(leftIcon, size);
-        const right      = renderIcon(rightIcon, size);
-        const centerIcon = renderIcon(icon, size);
+        const left  = renderIcon(leftIcon, size);
+        const right = renderIcon(rightIcon, size);
 
         if (left) {
             content.push(left);
-        }
-
-        if (centerIcon) {
-            content.push(centerIcon);
         }
 
         const isKeyLikeText = typeof text === 'string' && text.includes('.');
@@ -475,7 +483,7 @@
             align     : 'center',
             justify   : 'center',
             gap,
-            px        : icon ? padding.py : padding.px,
+            px        : padding.px,
             py        : padding.py,
             radius    : 'md',
             className : classes,

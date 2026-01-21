@@ -8,10 +8,10 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/badge/v-0.0.6-black"/>
+    <img src="https://img.shields.io/badge/v-0.0.7-black"/>
     <a href="https://github.com/cruxkit-org"><img src="https://img.shields.io/badge/🔥-@cruxkit-black"/></a>
     <br>
-    <img src="https://img.shields.io/badge/coverage-100%25-brightgreen" alt="Test Coverage" />
+    <img src="https://img.shields.io/badge/coverage-98.12%25-brightgreen" alt="Test Coverage" />
     <img src="https://img.shields.io/github/issues/cruxkit-org/button?style=flat" alt="Github Repo Issues" />
     <img src="https://img.shields.io/github/stars/cruxkit-org/button?style=social" alt="GitHub Repo stars" />
 </div>
@@ -70,15 +70,13 @@
             Save
         </Button>
 
-        <Button icon={Icon('plus')} variant="ghost" />
-
         <Button
             variant="outline"
             color="success"
             size="sm"
             fullWidth
-            leftIcon={Icon('check')}
-            rightIcon={Icon('arrow-right')}
+            leftIcon="check"
+            rightIcon={{ name: 'arrow-right' }}
         >
             Continue
         </Button>
@@ -126,9 +124,8 @@
                 disabled?               : boolean;
                 loading?                : boolean;
 
-                leftIcon?               : JSXElement;
-                rightIcon?              : JSXElement;
-                icon?                   : JSXElement;
+                leftIcon?               : IconProps | IconName;
+                rightIcon?              : IconProps | IconName;
 
                 as?                     : ContainerAs;
 
