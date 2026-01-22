@@ -11,7 +11,6 @@
     import { Text }                                                     from '@cruxkit/text';
     import { Icon, type IconProps, type IconName, type IconConfig }     from '@cruxkit/icon';
     import type { ButtonProps, ButtonSize, ButtonColor, ButtonVariant } from '../types';
-    import { t } from '@cruxjs/client';
     
 // ╚══════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -257,9 +256,6 @@
 
     const mountedElements            = new WeakSet<HTMLElement>();
     const loadedElements             = new WeakSet<HTMLElement>();
-    const translatedElements         = new WeakSet<HTMLElement>();
-    const MAX_TRANSLATION_ATTEMPTS   = 5;
-    const TRANSLATION_RETRY_DELAY_MS = 100;
 
     type ButtonContainerProps = {
         as?: unknown;
@@ -412,10 +408,9 @@
                 ? { type }
                 : {};
 
-        const shouldTranslate = isKeyLikeText;
 
         const handleRef =
-            (onMount || onLoad || shouldTranslate)
+            (onMount || onLoad)
                 ? (element: HTMLElement | null) => {
                     if (!element) return;
 
@@ -438,41 +433,6 @@
                         } else {
                             setTimeout(runLoad, 0);
                         }
-                    }
-
-                    if (shouldTranslate && !translatedElements.has(element)) {
-                        const schedule = (fn: () => void) => {
-                            if (typeof queueMicrotask === 'function') {
-                                queueMicrotask(fn);
-                            } else {
-                                setTimeout(fn, 0);
-                            }
-                        };
-
-                        const attemptTranslate = (attempt: number) => {
-                            const labelNode = element.querySelector('[data-role=\"btn-label\"]');
-
-                            if (!labelNode || typeof text !== 'string') return;
-
-                            let translated = t(text as string, undefined, '--');
-
-                            if (translated !== text && translated !== '--' || attempt >= MAX_TRANSLATION_ATTEMPTS) {
-                                (labelNode as HTMLElement).textContent = String(translated);
-                                translatedElements.add(element);
-                                return;
-                            }
-
-                            setTimeout(
-                                () => {
-                                    attemptTranslate(attempt + 1);
-                                },
-                                TRANSLATION_RETRY_DELAY_MS
-                            );
-                        };
-
-                        schedule(() => {
-                            attemptTranslate(0);
-                        });
                     }
                 }
                 : undefined;
