@@ -1,6 +1,6 @@
 {
 	"name"                             : "@cruxkit/button",
-	"version"                          : "0.1.8",
+	"version"                          : "0.1.9",
 	"description"                      : "Polymorphic, theme-aware button component for the Cruxkit ecosystem, built on @minejs/jsx.",
 	"keywords"                         : ["crux", "kit", "button"],
 	"license"                          : "MIT",

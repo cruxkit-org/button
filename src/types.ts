@@ -25,6 +25,7 @@
         color?                  : ButtonColor;
         size?                   : ButtonSize;
         fullWidth?              : boolean;
+        labelFullWidth?         : boolean;
         disabled?               : boolean;
         loading?                : boolean;
 

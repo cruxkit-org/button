@@ -10,6 +10,7 @@ interface ButtonProps {
     color?: ButtonColor;
     size?: ButtonSize;
     fullWidth?: boolean;
+    labelFullWidth?: boolean;
     disabled?: boolean;
     loading?: boolean;
     leftIcon?: IconProps | IconName;
@@ -40,6 +41,7 @@ interface ButtonProps {
 * @param props.color        - Color theme: `'brand' | 'success' | 'warning' | 'error' | 'neutral'`.
 * @param props.size         - Size scale: `'sm' | 'md' | 'lg'`.
 * @param props.fullWidth    - Whether the button spans the full width of its container.
+* @param props.labelFullWidth - Whether the label spans the full width of the button.
 * @param props.disabled     - Whether the button is disabled.
 * @param props.loading      - Whether the button is in a loading state (disables interaction).
 * @param props.leftIcon     - Optional icon placed to the left of the label (string name or IconProps).
