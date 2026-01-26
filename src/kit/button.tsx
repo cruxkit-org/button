@@ -7,7 +7,6 @@
 // ╔════════════════════════════════════════ PACK ════════════════════════════════════════╗
 
     import type { JSXElement }                                          from '@minejs/jsx';
-    import { Text }                                                     from '@cruxkit/text';
     import { Icon, type IconProps, type IconName, type IconConfig }     from '@cruxkit/icon';
     import type { ButtonProps, ButtonSize }                             from '../types';
     import {
@@ -215,12 +214,15 @@
                 {!loading ? renderIcon(leftIcon, size) : <></>}
 
                 {content && (typeof content === 'string' || typeof content === 'number') ? (
-                    <Text
-                        size={labelSize}
-                        className={labelFullWidth ? 'flex-1 text-center' : ''}
-                    >
-                        {content}
-                    </Text>
+                    <div
+                        textWeight      ='extrabold'
+                        textAlign       ={labelFullWidth ? 'center' : 'center'}
+                        textTransform   ='uppercase'
+                        color           ='brand'
+                        textSize        ={labelSize}
+                        className       ={labelFullWidth ? 'flex-1' : ''}
+                        children        ={content}
+                    />
                 ) : content}
 
                 {!loading ? renderIcon(rightIcon, size) : <></>}

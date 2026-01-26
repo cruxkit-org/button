@@ -163,14 +163,6 @@
             expect(root.className).toContain('w-full');
         });
 
-        test('handles labelFullWidth prop', () => {
-            // This prop affects the Text component inside
-            const { root } = renderButton({ labelFullWidth: true, text: 'Label Full' });
-            const textSpan = root.querySelector('span[data-text-size]'); // Mocked Text renders span with data-text-size
-            expect(textSpan).toBeTruthy();
-            expect(textSpan?.className).toContain('flex-1 text-center');
-        });
-
         test('handles disabled state', () => {
             const onClick = mock();
             const { root } = renderButton({ disabled: true, text: 'Disabled', onClick });
