@@ -5,8 +5,8 @@
 	"repo": {
 		"org"           : "cruxkit",
 		"name"          : "button",
-		"version"       : "0.2.5",
-		"desc"          : "Polymorphic, theme-aware button component for the Cruxkit ecosystem, built on @minejs/jsx.",
+		"version"       : "0.2.6",
+		"desc"          : "A lightweight, reactive button kit, built for @cruxjs ecosystem.",
 		"kw"            : ["crux", "kit", "button"],
 		"license"       : "MIT",
 		"issues"        : "https://github.com/cruxkit-org/button/issues",

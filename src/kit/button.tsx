@@ -7,7 +7,6 @@
 // ╔════════════════════════════════════════ PACK ════════════════════════════════════════╗
 
     import type { JSXElement }                                          from '@minejs/jsx';
-    import { Container }                                                from '@cruxkit/container';
     import { Text }                                                     from '@cruxkit/text';
     import { Icon, type IconProps, type IconName, type IconConfig }     from '@cruxkit/icon';
     import type { ButtonProps, ButtonSize }                             from '../types';
@@ -24,8 +23,6 @@
 
 
 // ╔════════════════════════════════════════ CORE ════════════════════════════════════════╗
-
-    const mountedElements = new WeakSet<HTMLElement>();
 
     function renderIcon(icon: IconProps | IconName | undefined, size: ButtonSize): JSXElement | null {
         if (!icon) return null;
@@ -54,6 +51,49 @@
      *
      * A versatile button component with support for variants, colors, sizes, and icons.
      * Now features enhanced style controllers for effects and interactions.
+     *
+     * @param {ButtonProps } props                      - The properties for the button.
+     * @param {ButtonVariant } [props.variant='solid']  - Visual style variant.
+     *   - `solid`: Filled background (default).
+     *   - `outline`: Border with transparent background.
+     *   - `ghost`: Transparent background, hover effect.
+     *   - `link`: Looks like a text link.
+     *   - `primary`, `secondary`, `success`, `warning`, `danger`, `info`: Semantic variants.
+     * @param {ButtonColor } [props.color='brand']  - Color theme.
+     *   - `brand`, `success`, `warning`, `error`, `neutral`, `info`.
+     * @param {ButtonSize } [props.size='md']       - Button size.
+     *   - `sm`: Small.
+     *   - `md`: Medium.
+     *   - `lg`: Large.
+     * @param {ButtonHoverEffect } [props.hover] - Hover effect.
+     *   - `opacity`: Reduces opacity on hover.
+     *   - `scale`: Scales up slightly on hover.
+     *   - `shadow`: Adds shadow on hover.
+     *   - `none`: No hover effect.
+     *   - Defaults depend on variant (e.g., semantic variants default to `opacity`).
+     * @param {ButtonActiveEffect } [props.active='scale'] - Click/Active effect.
+     *   - `scale`: Scales down slightly on click.
+     *   - `none`: No active effect.
+     * @param {string } [props.shadow]              - Box shadow style (e.g., 'sm', 'md', 'lg', 'none'). Defaults based on variant.
+     * @param {string } [props.radius='base']       - Border radius (e.g., 'none', 'sm', 'base', 'md', 'lg', 'full').
+     * @param {ButtonUnderline } [props.underline]  - Underline style for text.
+     *   - `hover`: Underline on hover.
+     *   - `always`: Always underlined.
+     *   - `none`: No underline.
+     * @param {boolean} [props.uppercase=false]         - If true, transforms text to uppercase.
+     * @param {boolean} [props.fullWidth=false]         - If true, the button takes up the full width of its container.
+     * @param {boolean} [props.labelFullWidth=false]    - If true, the label text takes up the remaining space (useful with icons).
+     * @param {boolean} [props.disabled=false]          - If true, disables interaction and applies disabled styles.
+     * @param {boolean} [props.loading=false]           - If true, shows a loading spinner and disables interaction.
+     * @param {IconProps | IconName} [props.leftIcon]   - Icon to display on the left side.
+     * @param {IconProps | IconName} [props.rightIcon]  - Icon to display on the right side.
+     * @param {string} [props.as='button']              - The HTML element or component to render as.
+     * @param {string | number} [props.text]            - The text content of the button.
+     * @param {JSXElement | string | number} [props.children]   - Child elements (overrides text).
+     * @param {string} [props.className]                        - Additional CSS classes.
+     * @param {(e: MouseEvent) => void} [props.onClick]         - Click handler.
+     * @param {(e: MouseEvent) => void} [props.onMouseEnter]    - Mouse enter handler.
+     * @param {(e: MouseEvent) => void} [props.onMouseLeave]    - Mouse leave handler.
      */
     export function Button(props: ButtonProps): JSXElement {
         const {
@@ -77,14 +117,14 @@
             leftIcon,
             rightIcon,
 
-            as,
+            as = 'button',
             text,
             children,
 
             className,
-            onMount,
-            onLoad,
             onClick,
+            onMouseEnter,
+            onMouseLeave,
 
             ...rest
         } = props;
@@ -128,18 +168,6 @@
         const variantStyle = variantClasses[variant]?.[color] || [];
         baseClasses.push(...variantStyle);
 
-        // Radius
-        if (resolvedRadius !== 'none') {
-             baseClasses.push(resolvedRadius === 'base' ? 'rounded' : `rounded-${resolvedRadius}`);
-        } else {
-            baseClasses.push('rounded-none');
-        }
-
-        // Shadow
-        if (resolvedShadow !== 'none') {
-            baseClasses.push(`shadow-${resolvedShadow}`);
-        }
-
         // Hover Effects
         if (resolvedHover === 'opacity') baseClasses.push('hover:opacity-90');
         if (resolvedHover === 'scale')   baseClasses.push('hover:scale-105');
@@ -164,24 +192,19 @@
         const labelSize = labelSizeMap[size];
 
         return (
-            <Container
-                as={as || 'button'}
+            <div
+                as={as}
                 className={baseClasses.join(' ')}
-                {...rest}
-                ref={(el: HTMLElement | null) => {
-                    if (el) {
-                        if (!mountedElements.has(el)) {
-                            mountedElements.add(el);
-                            onMount?.(el);
-                            onLoad?.(el);
-                        }
-                    }
-                }}
+                radius={resolvedRadius}
+                shadow={resolvedShadow}
                 onClick={(e: MouseEvent) => {
                     if (!disabled && !loading) {
                         onClick?.(e);
                     }
                 }}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                {...rest}
             >
                 {loading && (
                     <span className="animate-spin mr-2">
@@ -201,7 +224,7 @@
                 ) : content}
 
                 {!loading ? renderIcon(rightIcon, size) : <></>}
-            </Container>
+            </div>
         );
     }
 

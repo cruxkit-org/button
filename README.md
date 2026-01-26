@@ -8,10 +8,10 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/badge/v-0.2.5-black"/>
+    <img src="https://img.shields.io/badge/v-0.2.6-black"/>
     <a href="https://github.com/cruxkit-org"><img src="https://img.shields.io/badge/🔥-@cruxkit-black"/></a>
     <br>
-    <img src="https://img.shields.io/badge/coverage-98.12%25-brightgreen" alt="Test Coverage" />
+    <img src="https://img.shields.io/badge/coverage-99.91%25-brightgreen" alt="Test Coverage" />
     <img src="https://img.shields.io/github/issues/cruxkit-org/button?style=flat" alt="Github Repo Issues" />
     <img src="https://img.shields.io/github/stars/cruxkit-org/button?style=social" alt="GitHub Repo stars" />
 </div>
@@ -24,17 +24,12 @@
 <!-- ╔══════════════════════════════ DOC ══════════════════════════════╗ -->
 
 - ## Overview 👀
+
     - #### Why ?
-        > A small, focused Button primitive for the **Cruxkit** ecosystem. It exposes a
-        > single, strongly‑typed API that works across apps, sites, and design systems
-        > built on `@minejs/jsx`, so you don’t reimplement button variants, sizes, and
-        > states in every project.
+        > A lightweight, reactive button kit, built for [`@cruxjs`](https://github.com/cruxjs-org) ecosystem.
 
     - #### When ?
-        > Use it whenever you need a consistent, theme‑aware button: primary actions,
-        > subtle ghost or outline actions, link‑styled buttons, or full‑width CTAs. It
-        > fits best in projects already using `@cruxkit/container`, `@cruxkit/text`, and
-        > `@cruxkit/icon`.
+        > When you need a flexible, theme-ready button with built-in variants, colors, sizes, hover/active effects, icons, loading states, and full TypeScript support—without writing custom styles or logic.
 
     <br>
     <br>
@@ -59,49 +54,32 @@
 
     - ### Basic usage
 
-        ```tsx
+        ```jsx
         <Button text="Click me" />
         ```
 
     - ### With options
 
-        ```tsx
-        <Button variant="solid" color="brand" size="md">
-            Save
-        </Button>
+        ```jsx
+        // Variants & Colors
+        <Button variant="solid" color="brand" text="Solid Brand" />
+        <Button variant="outline" color="success" text="Outline Success" />
+        <Button variant="ghost" color="error" text="Ghost Error" />
+        <Button variant="link" text="Read More" />
 
-        <Button
-            variant="outline"
-            color="success"
-            size="sm"
-            fullWidth
-            leftIcon="check"
-            rightIcon={{ name: 'arrow-right' }}
-        >
-            Continue
-        </Button>
+        // Sizes
+        <Button size="sm" text="Small" />
+        <Button size="lg" text="Large" />
 
-        <Button
-            variant="primary"
-            hover="scale"
-            shadow="lg"
-            radius="full"
-            uppercase
-        >
-            Custom Style
-        </Button>
+        // Icons
+        <Button leftIcon="plus" text="Add Item" />
+        <Button rightIcon={name:"arrow-left", rotate: 180} text="Continue" />
 
-        <Button
-            as="a"
-            href="https://example.com"
-            variant="link"
-            color="brand"
-            onMount={(el) => {
-                console.log('Button mounted', el);
-            }}
-        >
-            Learn more
-        </Button>
+        // States & Effects
+        <Button loading text="Processing..." />
+        <Button disabled text="Not Allowed" />
+        <Button hover="scale" active="scale" shadow="md" text="Interactive" />
+        <Button fullWidth text="Full Width" />
         ```
 
     <br>
@@ -115,32 +93,27 @@
         - #### Functions
 
             ```tsx
-            // A polymorphic button component that supports multiple variants, colors, sizes, and states.
             export function Button(props: ButtonProps): JSXElement
             ```
 
         - #### Types
 
             ```tsx
-            export type ButtonVariant      = 'solid' | 'outline' | 'ghost' | 'link' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
-            export type ButtonColor        = 'brand' | 'success' | 'warning' | 'error' | 'neutral' | 'info';
-            export type ButtonSize         = 'sm' | 'md' | 'lg';
+            export type ButtonVariant       = 'solid' | 'outline' | 'ghost' | 'link' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
+            export type ButtonColor         = 'brand' | 'success' | 'warning' | 'error' | 'neutral' | 'info';
+            export type ButtonSize          = 'sm' | 'md' | 'lg';
 
-            export type ButtonRadius       = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
-            export type ButtonShadow       = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'inner';
-            export type ButtonHoverEffect  = 'none' | 'opacity' | 'scale' | 'shadow';
-            export type ButtonActiveEffect = 'none' | 'scale';
-            export type ButtonUnderline    = 'none' | 'hover' | 'always';
+            export type ButtonHoverEffect   = 'none' | 'opacity' | 'scale' | 'shadow';
+            export type ButtonActiveEffect  = 'none' | 'scale';
+            export type ButtonUnderline     = 'none' | 'hover' | 'always';
 
-            export interface ButtonProps {
+            export interface ButtonProps extends Omit<JSXProps, 'children' | 'color'> {
                 variant?                : ButtonVariant;
                 color?                  : ButtonColor;
                 size?                   : ButtonSize;
 
                 hover?                  : ButtonHoverEffect;
                 active?                 : ButtonActiveEffect;
-                shadow?                 : ButtonShadow;
-                radius?                 : ButtonRadius;
                 underline?              : ButtonUnderline;
                 uppercase?              : boolean;
 
@@ -152,23 +125,10 @@
                 leftIcon?               : IconProps | IconName;
                 rightIcon?              : IconProps | IconName;
 
-                as?                     : ContainerAs;
-
                 text?                   : string | number;
                 children?               : JSXElement | string | number;
 
-                className?              : string;
-                id?                     : string;
-                type?                   : 'button' | 'submit' | 'reset';
-                href?                   : string;
-                target?                 : string;
-                rel?                    : string;
-
-                'aria-label'?           : string;
-                role?                   : string;
-
-                onMount?                : (e: HTMLElement) => void;
-                onLoad?                 : (e: HTMLElement) => void;
+                // Explicitly define common event handlers for better DX
                 onClick?                : (e: MouseEvent) => void;
                 onMouseEnter?           : (e: MouseEvent) => void;
                 onMouseLeave?           : (e: MouseEvent) => void;
@@ -187,10 +147,6 @@
         - ##### [@cruxkit/text](https://github.com/cruxkit-org/text)
 
         - ##### [@cruxkit/icon](https://github.com/cruxkit-org/icon)
-
-        - ##### [@cruxkit/container](https://github.com/cruxkit-org/container)
-
-        - ##### [@cruxkit/..](https://github.com/cruxkit-org)
 
 
 <!-- ╚═════════════════════════════════════════════════════════════════╝ -->
