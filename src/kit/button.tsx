@@ -215,6 +215,7 @@
 
                 {content && (typeof content === 'string' || typeof content === 'number') ? (
                     <div
+                        as              ='span'
                         textWeight      ='extrabold'
                         textAlign       ={labelFullWidth ? 'center' : 'center'}
                         textTransform   ='uppercase'
