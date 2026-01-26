@@ -16,14 +16,28 @@
 
 // ╔════════════════════════════════════════ TYPE ════════════════════════════════════════╗
 
-    export type ButtonVariant  = 'solid' | 'outline' | 'ghost' | 'link';
-    export type ButtonColor    = 'brand' | 'success' | 'warning' | 'error' | 'neutral';
+    export type ButtonVariant  = 'solid' | 'outline' | 'ghost' | 'link' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
+    export type ButtonColor    = 'brand' | 'success' | 'warning' | 'error' | 'neutral' | 'info';
     export type ButtonSize     = 'sm' | 'md' | 'lg';
+
+    export type ButtonRadius       = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
+    export type ButtonShadow       = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'inner';
+    export type ButtonHoverEffect  = 'none' | 'opacity' | 'scale' | 'shadow';
+    export type ButtonActiveEffect = 'none' | 'scale';
+    export type ButtonUnderline    = 'none' | 'hover' | 'always';
 
     export interface ButtonProps {
         variant?                : ButtonVariant;
         color?                  : ButtonColor;
         size?                   : ButtonSize;
+        
+        hover?                  : ButtonHoverEffect;
+        active?                 : ButtonActiveEffect;
+        shadow?                 : ButtonShadow;
+        radius?                 : ButtonRadius;
+        underline?              : ButtonUnderline;
+        uppercase?              : boolean;
+
         fullWidth?              : boolean;
         labelFullWidth?         : boolean;
         disabled?               : boolean;

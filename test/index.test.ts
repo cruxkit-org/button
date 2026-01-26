@@ -14,6 +14,7 @@
     } from '../src';
     import type {
         ButtonProps,
+        ButtonVariant,
     } from '../src';
 
 // ╚══════════════════════════════════════════════════════════════════════════════════════╝
@@ -145,6 +146,15 @@
 
             ghost.mounted.unmount();
 
+            const danger = renderButton({
+                variant : 'danger',
+                children: 'Danger'
+            });
+
+            expect(danger.root.className).toContain('bg-error');
+
+            danger.mounted.unmount();
+
             const link = renderButton({
                 variant : 'link',
                 color   : 'brand',
@@ -154,6 +164,27 @@
             expect(link.root.className).toContain('hover:underline');
 
             link.mounted.unmount();
+        });
+
+        test('supports semantic variants', () => {
+            const variants: { name: ButtonVariant; expected: string }[] = [
+                { name: 'primary', expected: 'bg-brand' },
+                { name: 'secondary', expected: 'bg-raised' },
+                { name: 'success', expected: 'bg-success' },
+                { name: 'warning', expected: 'bg-warning' },
+                { name: 'info', expected: 'bg-info' }
+            ];
+
+            for (const { name, expected } of variants) {
+                const instance = renderButton({
+                    variant: name,
+                    children: name
+                });
+
+                expect(instance.root.className).toContain(expected);
+
+                instance.mounted.unmount();
+            }
         });
 
         test('renders icons from name and props', () => {

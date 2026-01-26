@@ -10,243 +10,14 @@
     import { Container }                                                from '@cruxkit/container';
     import { Text }                                                     from '@cruxkit/text';
     import { Icon, type IconProps, type IconName, type IconConfig }     from '@cruxkit/icon';
-    import type { ButtonProps, ButtonSize, ButtonColor, ButtonVariant } from '../types';
-    
-// ╚══════════════════════════════════════════════════════════════════════════════════════╝
-
-
-
-// ╔════════════════════════════════════════ INIT ════════════════════════════════════════╗
-
-    const sizePaddingMap: Record<ButtonSize, { px: 3 | 4 | 6; py: 1 | 2 | 3 }> = {
-        sm: { px: 3, py: 1 },
-        md: { px: 4, py: 2 },
-        lg: { px: 6, py: 3 }
-    };
-
-    const sizeGapMap: Record<ButtonSize, 1 | 2> = {
-        sm: 1,
-        md: 2,
-        lg: 2
-    };
-
-    const labelSizeMap: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
-        sm: 'sm',
-        md: 'md',
-        lg: 'lg'
-    };
-
-    const iconSizeMap: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
-        sm: 'sm',
-        md: 'md',
-        lg: 'lg'
-    };
-
-    const variantClasses: Record<ButtonVariant, Record<ButtonColor, string[]>> = {
-        solid: {
-            brand: [
-                'bg-brand',
-                'text-inverse',
-                'border',
-                'border-transparent',
-                'hover:bg-brand-hover',
-                'active:bg-brand-active',
-                'active:scale-95',
-                'shadow-sm',
-                'hover:shadow-md'
-            ],
-            success: [
-                'bg-success',
-                'text-inverse',
-                'border',
-                'border-transparent',
-                'hover:bg-success-hover',
-                'active:bg-success-active',
-                'active:scale-95',
-                'shadow-sm',
-                'hover:shadow-md'
-            ],
-            warning: [
-                'bg-warning',
-                'text-inverse',
-                'border',
-                'border-transparent',
-                'hover:bg-warning-hover',
-                'active:bg-warning-active',
-                'active:scale-95',
-                'shadow-sm',
-                'hover:shadow-md'
-            ],
-            error: [
-                'bg-error',
-                'text-inverse',
-                'border',
-                'border-transparent',
-                'hover:bg-error-hover',
-                'active:bg-error-active',
-                'active:scale-95',
-                'shadow-sm',
-                'hover:shadow-md'
-            ],
-            neutral: [
-                'bg-surface',
-                'text-1',
-                'border',
-                'border-1',
-                'hover:bg-raised',
-                'active:bg-tertiary',
-                'active:scale-95',
-                'shadow-sm',
-                'hover:shadow-md'
-            ]
-        },
-        outline: {
-            brand: [
-                'bg-transparent',
-                'text-brand',
-                'border',
-                'border-brand',
-                'hover:bg-brand-subtle',
-                'active:bg-brand-subtle',
-                'active:scale-95'
-            ],
-            success: [
-                'bg-transparent',
-                'text-success',
-                'border',
-                'border-success',
-                'hover:bg-success-subtle',
-                'active:bg-success-subtle',
-                'active:scale-95'
-            ],
-            warning: [
-                'bg-transparent',
-                'text-warning',
-                'border',
-                'border-warning',
-                'hover:bg-warning-subtle',
-                'active:bg-warning-subtle',
-                'active:scale-95'
-            ],
-            error: [
-                'bg-transparent',
-                'text-error',
-                'border',
-                'border-error',
-                'hover:bg-error-subtle',
-                'active:bg-error-subtle',
-                'active:scale-95'
-            ],
-            neutral: [
-                'bg-transparent',
-                'text-1',
-                'border',
-                'border-1',
-                'hover:bg-raised',
-                'active:bg-tertiary',
-                'active:scale-95'
-            ]
-        },
-        ghost: {
-            brand: [
-                'bg-transparent',
-                'text-brand',
-                'border',
-                'border-transparent',
-                'hover:bg-brand-subtle',
-                'active:bg-brand-subtle',
-                'active:scale-95'
-            ],
-            success: [
-                'bg-transparent',
-                'text-success',
-                'border',
-                'border-transparent',
-                'hover:bg-success-subtle',
-                'active:bg-success-subtle',
-                'active:scale-95'
-            ],
-            warning: [
-                'bg-transparent',
-                'text-warning',
-                'border',
-                'border-transparent',
-                'hover:bg-warning-subtle',
-                'active:bg-warning-subtle',
-                'active:scale-95'
-            ],
-            error: [
-                'bg-transparent',
-                'text-error',
-                'border',
-                'border-transparent',
-                'hover:bg-error-subtle',
-                'active:bg-error-subtle',
-                'active:scale-95'
-            ],
-            neutral: [
-                'bg-transparent',
-                'text-1',
-                'border',
-                'border-transparent',
-                'hover:bg-raised',
-                'active:bg-tertiary',
-                'active:scale-95'
-            ]
-        },
-        link: {
-            brand: [
-                'bg-transparent',
-                'text-brand',
-                'border',
-                'border-transparent',
-                'hover:underline',
-                'underline-offset-4',
-                'decoration-2',
-                'px-1'
-            ],
-            success: [
-                'bg-transparent',
-                'text-success',
-                'border',
-                'border-transparent',
-                'hover:underline',
-                'underline-offset-4',
-                'decoration-2',
-                'px-1'
-            ],
-            warning: [
-                'bg-transparent',
-                'text-warning',
-                'border',
-                'border-transparent',
-                'hover:underline',
-                'underline-offset-4',
-                'decoration-2',
-                'px-1'
-            ],
-            error: [
-                'bg-transparent',
-                'text-error',
-                'border',
-                'border-transparent',
-                'hover:underline',
-                'underline-offset-4',
-                'decoration-2',
-                'px-1'
-            ],
-            neutral: [
-                'bg-transparent',
-                'text-1',
-                'border',
-                'border-transparent',
-                'hover:underline',
-                'underline-offset-4',
-                'decoration-2',
-                'px-1'
-            ]
-        }
-    };
+    import type { ButtonProps, ButtonSize }                             from '../types';
+    import {
+        sizePaddingMap,
+        sizeGapMap,
+        labelSizeMap,
+        iconSizeMap,
+        variantClasses
+    } from './constants';
 
 // ╚══════════════════════════════════════════════════════════════════════════════════════╝
 
@@ -254,21 +25,7 @@
 
 // ╔════════════════════════════════════════ CORE ════════════════════════════════════════╗
 
-    const mountedElements            = new WeakSet<HTMLElement>();
-    const loadedElements             = new WeakSet<HTMLElement>();
-
-    type ButtonContainerProps = {
-        as?: unknown;
-        display?: string;
-        align?: string;
-        justify?: string;
-        gap?: number;
-        px?: number;
-        py?: number;
-        radius?: string;
-        className?: string;
-        ref?: (element: HTMLElement | null) => void;
-    } & Record<string, unknown>;
+    const mountedElements = new WeakSet<HTMLElement>();
 
     function renderIcon(icon: IconProps | IconName | undefined, size: ButtonSize): JSXElement | null {
         if (!icon) return null;
@@ -293,173 +50,157 @@
     }
 
     /**
-    * A polymorphic button component that supports multiple variants, colors, sizes, and states.
-    *
-    * @param props              - The properties for the Button component.
-    * @param props.variant      - Visual style variant: `'solid' | 'outline' | 'ghost' | 'link'`.
-    * @param props.color        - Color theme: `'brand' | 'success' | 'warning' | 'error' | 'neutral'`.
-    * @param props.size         - Size scale: `'sm' | 'md' | 'lg'`.
-    * @param props.fullWidth    - Whether the button spans the full width of its container.
-    * @param props.labelFullWidth - Whether the label spans the full width of the button.
-    * @param props.disabled     - Whether the button is disabled.
-    * @param props.loading      - Whether the button is in a loading state (disables interaction).
-    * @param props.leftIcon     - Optional icon placed to the left of the label (string name or IconProps).
-    * @param props.rightIcon    - Optional icon placed to the right of the label (string name or IconProps).
-    * @param props.as           - Element type to render: `'button' | 'a' | any polymorphic component`.
-    * @param props.children     - Button label content.
-    * @param props.className    - Additional CSS classes appended to the built-in styles.
-    * @param props.type         - HTML button type attribute (only applied when `as="button"`).
-    * @param props.restProps    - Any other props are forwarded to the underlying element.
-    *
-    * @returns A JSX element representing the styled button.
-    *
-    * @example
-    * ```tsx
-    * <Button variant="solid" color="brand" size="md" onClick={handleClick}>
-    *   Save
-    * </Button>
-    * ```
-    */
+     * Button Component
+     *
+     * A versatile button component with support for variants, colors, sizes, and icons.
+     * Now features enhanced style controllers for effects and interactions.
+     */
     export function Button(props: ButtonProps): JSXElement {
         const {
-            variant     = 'solid',
-            color       = 'brand',
-            size        = 'md',
-            fullWidth   = false,
-            labelFullWidth = false,
-            disabled    = false,
-            loading     = false,
+            variant = 'solid',
+            color   = 'brand',
+            size    = 'md',
+
+            // Style Controllers
+            hover,
+            active,
+            shadow,
+            radius,
+            underline,
+            uppercase,
+
+            fullWidth,
+            labelFullWidth,
+            disabled,
+            loading,
+
             leftIcon,
             rightIcon,
-            as          = 'button',
+
+            as,
             text,
             children,
+
             className,
-            type        = 'button',
             onMount,
             onLoad,
-            ...restProps
+            onClick,
+
+            ...rest
         } = props;
 
+        // 1. Resolve Defaults based on Variant
+        const isSemantic      = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'].includes(variant);
+        const isSolid         = variant === 'solid';
+        const isLink          = variant === 'link';
+
+        const resolvedShadow    = shadow    ?? ((isSemantic || isSolid) ? 'sm' : 'none');
+        const resolvedActive    = active    ?? 'scale';
+        // Legacy variants (solid/outline/ghost) have built-in color hovers, so we default to 'none' to avoid double effects
+        // Semantic variants use opacity hover by default
+        const resolvedHover     = hover     ?? (isSemantic ? 'opacity' : 'none');
+        const resolvedUnderline = underline ?? (isLink ? 'hover' : 'none');
+        const resolvedRadius    = radius    ?? 'base'; // Default to base rounded
+
+        // 2. Compose Classes
         const baseClasses = [
-            'inline-flex',
-            'items-center',
-            'justify-center',
-            'font-medium',
-            'transition-all',
-            'duration-150',
-            'select-none',
+            'inline-flex', 'items-center', 'justify-center',
+            'transition-all', 'duration-200',
             'focus:outline-none',
-            'focus-visible:ring',
-            'focus-visible:ring-offset-2'
+            'font-medium'
         ];
 
-        const stateClasses = [];
-
-        if (loading || disabled) {
-            stateClasses.push('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+        // State Classes
+        if (disabled || loading) {
+            baseClasses.push('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+        } else {
+            baseClasses.push('cursor-pointer');
         }
 
-        if (fullWidth) {
-            stateClasses.push('w-full');
+        // Size Classes
+        if (fullWidth) baseClasses.push('w-full');
+        baseClasses.push(`gap-${sizeGapMap[size]}`);
+        baseClasses.push(`px-${sizePaddingMap[size].px}`);
+        baseClasses.push(`py-${sizePaddingMap[size].py}`);
+        baseClasses.push(`text-${labelSizeMap[size]}`); // Ensure text size matches button size
+
+        // Variant & Color Classes (from Constants)
+        const variantStyle = variantClasses[variant]?.[color] || [];
+        baseClasses.push(...variantStyle);
+
+        // Radius
+        if (resolvedRadius !== 'none') {
+             baseClasses.push(resolvedRadius === 'base' ? 'rounded' : `rounded-${resolvedRadius}`);
+        } else {
+            baseClasses.push('rounded-none');
         }
 
-        const paletteClasses = variantClasses[variant][color];
+        // Shadow
+        if (resolvedShadow !== 'none') {
+            baseClasses.push(`shadow-${resolvedShadow}`);
+        }
 
-        const classes = [
-            ...baseClasses,
-            ...stateClasses,
-            ...paletteClasses,
-            className
-        ]
-            .filter(Boolean)
-            .join(' ');
+        // Hover Effects
+        if (resolvedHover === 'opacity') baseClasses.push('hover:opacity-90');
+        if (resolvedHover === 'scale')   baseClasses.push('hover:scale-105');
+        if (resolvedHover === 'shadow')  baseClasses.push('hover:shadow-md');
 
-        const padding   = sizePaddingMap[size];
-        const gap       = sizeGapMap[size];
+        // Active Effects
+        if (resolvedActive === 'scale')  baseClasses.push('active:scale-95');
+
+        // Underline
+        if (resolvedUnderline === 'hover')  baseClasses.push('hover:underline', 'underline-offset-4', 'decoration-2');
+        if (resolvedUnderline === 'always') baseClasses.push('underline', 'underline-offset-4', 'decoration-2');
+
+        // Uppercase
+        if (uppercase) baseClasses.push('uppercase', 'tracking-wide');
+
+        // Custom ClassName
+        if (className) baseClasses.push(className);
+
+
+        // 3. Render
+        const content = children || text;
         const labelSize = labelSizeMap[size];
 
-        const content: JSXElement[] = [];
-
-        const left  = renderIcon(leftIcon, size);
-        const right = renderIcon(rightIcon, size);
-
-        if (left) {
-            content.push(left);
-        }
-
-        const isKeyLikeText = typeof text === 'string' && text.includes('.');
-        const label         = children ?? (isKeyLikeText ? '--' : text);
-
-        if (label !== undefined && label !== null && label !== '') {
-            content.push(
-                <Text as="span" size={labelSize} data-role="btn-label" className={`flex items-center${labelFullWidth ? ' w-full justify-center' : ''}`}>
-                    {label}
-                </Text>
-            );
-        }
-
-        if (right) {
-            content.push(right);
-        }
-
-        const elementType = as;
-
-        const elementTypeProps =
-            elementType === 'button'
-                ? { type }
-                : {};
-
-
-        const handleRef =
-            (onMount || onLoad)
-                ? (element: HTMLElement | null) => {
-                    if (!element) return;
-
-                    if (onMount && !mountedElements.has(element)) {
-                        mountedElements.add(element);
-                        onMount(element);
-                    }
-
-                    if (onLoad && !loadedElements.has(element)) {
-                        loadedElements.add(element);
-
-                        const runLoad = () => {
-                            onLoad(element);
-                        };
-
-                        if (typeof requestAnimationFrame === 'function') {
-                            requestAnimationFrame(() => {
-                                requestAnimationFrame(runLoad);
-                            });
-                        } else {
-                            setTimeout(runLoad, 0);
+        return (
+            <Container
+                as={as || 'button'}
+                className={baseClasses.join(' ')}
+                {...rest}
+                ref={(el: HTMLElement | null) => {
+                    if (el) {
+                        if (!mountedElements.has(el)) {
+                            mountedElements.add(el);
+                            onMount?.(el);
+                            onLoad?.(el);
                         }
                     }
-                }
-                : undefined;
+                }}
+                onClick={(e: MouseEvent) => {
+                    if (!disabled && !loading) {
+                        onClick?.(e);
+                    }
+                }}
+            >
+                {loading && (
+                    <span className="animate-spin mr-2">
+                        <Icon name='spinner' size={iconSizeMap[size]} />
+                    </span>
+                )}
 
-        const containerProps: ButtonContainerProps = {
-            as,
-            display   : 'inline-flex',
-            align     : 'center',
-            justify   : 'center',
-            gap,
-            px        : padding.px,
-            py        : padding.py,
-            radius    : 'md',
-            className : classes,
-            ...elementTypeProps,
-            ...restProps
-        };
+                {!loading ? renderIcon(leftIcon, size) : <></>}
 
-        if (handleRef) {
-            containerProps.ref = handleRef;
-        }
+                {content && (typeof content === 'string' || typeof content === 'number') ? (
+                    <Text
+                        size={labelSize}
+                        className={labelFullWidth ? 'flex-1 text-center' : ''}
+                    >
+                        {content}
+                    </Text>
+                ) : content}
 
-        return (
-            <Container {...(containerProps as Record<string, unknown>)}>
-                {content}
+                {!loading ? renderIcon(rightIcon, size) : <></>}
             </Container>
         );
     }

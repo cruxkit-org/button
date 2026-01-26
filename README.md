@@ -8,7 +8,7 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/badge/v-0.2.4-black"/>
+    <img src="https://img.shields.io/badge/v-0.2.5-black"/>
     <a href="https://github.com/cruxkit-org"><img src="https://img.shields.io/badge/🔥-@cruxkit-black"/></a>
     <br>
     <img src="https://img.shields.io/badge/coverage-98.12%25-brightgreen" alt="Test Coverage" />
@@ -82,6 +82,16 @@
         </Button>
 
         <Button
+            variant="primary"
+            hover="scale"
+            shadow="lg"
+            radius="full"
+            uppercase
+        >
+            Custom Style
+        </Button>
+
+        <Button
             as="a"
             href="https://example.com"
             variant="link"
@@ -112,15 +122,30 @@
         - #### Types
 
             ```tsx
-            export type ButtonVariant  = 'solid' | 'outline' | 'ghost' | 'link';
-            export type ButtonColor    = 'brand' | 'success' | 'warning' | 'error' | 'neutral';
-            export type ButtonSize     = 'sm' | 'md' | 'lg';
+            export type ButtonVariant      = 'solid' | 'outline' | 'ghost' | 'link' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
+            export type ButtonColor        = 'brand' | 'success' | 'warning' | 'error' | 'neutral' | 'info';
+            export type ButtonSize         = 'sm' | 'md' | 'lg';
+
+            export type ButtonRadius       = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
+            export type ButtonShadow       = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'inner';
+            export type ButtonHoverEffect  = 'none' | 'opacity' | 'scale' | 'shadow';
+            export type ButtonActiveEffect = 'none' | 'scale';
+            export type ButtonUnderline    = 'none' | 'hover' | 'always';
 
             export interface ButtonProps {
                 variant?                : ButtonVariant;
                 color?                  : ButtonColor;
                 size?                   : ButtonSize;
+
+                hover?                  : ButtonHoverEffect;
+                active?                 : ButtonActiveEffect;
+                shadow?                 : ButtonShadow;
+                radius?                 : ButtonRadius;
+                underline?              : ButtonUnderline;
+                uppercase?              : boolean;
+
                 fullWidth?              : boolean;
+                labelFullWidth?         : boolean;
                 disabled?               : boolean;
                 loading?                : boolean;
 
