@@ -1,6 +1,6 @@
 {
 	"name"                             : "@cruxkit/button",
-	"version"                          : "0.3.0",
+	"version"                          : "0.3.1",
 	"description"                      : "A lightweight, reactive button kit, built for @cruxjs ecosystem.",
 	"keywords"                         : ["crux", "kit", "button"],
 	"license"                          : "MIT",

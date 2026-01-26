@@ -5,7 +5,7 @@
 	"repo": {
 		"org"           : "cruxkit",
 		"name"          : "button",
-		"version"       : "0.3.0",
+		"version"       : "0.3.1",
 		"desc"          : "A lightweight, reactive button kit, built for @cruxjs ecosystem.",
 		"kw"            : ["crux", "kit", "button"],
 		"license"       : "MIT",

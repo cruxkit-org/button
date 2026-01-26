@@ -216,7 +216,7 @@
                 {content && (typeof content === 'string' || typeof content === 'number') ? (
                     <Text
                         as="span"
-                        weight="extrabold"
+                        weight="bold"
                         align="center"
                         color="brand"
                         size={labelSize as TextProps["size"]}
