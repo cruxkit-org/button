@@ -8,7 +8,7 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/badge/v-0.2.6-black"/>
+    <img src="https://img.shields.io/badge/v-0.2.7-black"/>
     <a href="https://github.com/cruxkit-org"><img src="https://img.shields.io/badge/🔥-@cruxkit-black"/></a>
     <br>
     <img src="https://img.shields.io/badge/coverage-99.91%25-brightgreen" alt="Test Coverage" />

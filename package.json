@@ -1,6 +1,6 @@
 {
 	"name"                             : "@cruxkit/button",
-	"version"                          : "0.2.6",
+	"version"                          : "0.2.7",
 	"description"                      : "A lightweight, reactive button kit, built for @cruxjs ecosystem.",
 	"keywords"                         : ["crux", "kit", "button"],
 	"license"                          : "MIT",
@@ -42,7 +42,7 @@
 	"dependencies": {
 		"@cruxkit/icon"                : "^0.1.1",
 		"@cruxkit/text"                : "^0.0.2",
-		"@minejs/jsx"                  : "^0.2.5"
+		"@minejs/jsx"                  : "^0.2.6"
 	},
 	"devDependencies": {
 		"@eslint/js"                   : "^9.39.2",
